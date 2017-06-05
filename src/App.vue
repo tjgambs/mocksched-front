@@ -1,14 +1,15 @@
 <template>
-  <other></other>
+  <page></page>
 </template>
 
 <script>
 
-  import OtherComponent from './otherComponent.vue'
+  import Index from './index.vue'
+  import Page from './page.vue'
 
   export default {    
     components: {
-      'other': OtherComponent
+      'page': Index
     }
   }
 
