@@ -1,20 +1,6 @@
 <template>
-  <page></page>
+  <div>
+    <router-view></router-view>
+    <div id="app"></div>
+  </div>
 </template>
-
-<script>
-
-  import Index from './index.vue'
-  import Page from './page.vue'
-
-  export default {    
-    components: {
-      'page': Index
-    }
-  }
-
-</script>
-
-<style>
-
-</style>
