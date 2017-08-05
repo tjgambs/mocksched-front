@@ -18,7 +18,13 @@
                 {{ subject.subject }}
               </option>
             </select>
-            <input v-bind:value="selected_number" v-on:keyup.enter="search" v-on:input="selected_number = $event.target.value" />
+            <input placeholder="Course Number" v-bind:value="selected_number" v-on:keyup.enter="search" v-on:input="selected_number = $event.target.value" />
+            <select v-model="selected_domain" id="domains">
+              <option value="">Learning Domain</option>
+              <option v-for="domain in learning_domains" v-bind:value="domain.value">
+                {{ domain.name }}
+              </option>
+            </select>
             <input class="search-button" type="submit" value="SEARCH" v-on:click="search()">
           </div>
         </div>
@@ -74,18 +80,27 @@
 <script>
 
   export default {
-    props: ['term','subject','number'],
+    props: ['term','subject','number','domain'],
     data () {
       return {
         search_api: 'http://23.236.57.78:8080/v1/search/',
         selected_subject: '',
         selected_number: '',
+        selected_domain: '',
         title: null,
         description: null,
         prerequisites: null,
         selected_term: '',
         sections: [],
         terms: [],
+        learning_domains: [
+          {'value':'arts-and-literature', 'name':'Arts and Literature'},
+          {'value':'self-society-and-the-modern-world', 'name':'Self Society and the Modern World'},
+          {'value':'scientific-inquiry', 'name':'Scientific Inquiry'},
+          {'value':'philosophical-inquiry', 'name':'Philosophical Inquiry'},
+          {'value':'understanding-the-past', 'name':'Understanding the Past'},
+          {'value':'religious-dimensions', 'name':'Religious Dimensions'}
+        ],
         subjects: [],
         headers: [],
         has_topic: false
@@ -101,6 +116,7 @@
             _this.subjects = subjects.data.results;
             _this.selected_subject = _this.subject;
             _this.selected_number = _this.number;
+            _this.selected_domain = _this.domain;
           });
         }
       });
@@ -161,7 +177,8 @@
           query: { 
             subject: this.selected_subject, 
             term: this.selected_term, 
-            number: this.selected_number 
+            number: this.selected_number,
+            domain: this.selected_domain
           }
         })
       }

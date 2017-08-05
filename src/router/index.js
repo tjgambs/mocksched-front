@@ -22,7 +22,8 @@ let router = new Router({
       props: (route) => ({ 
         term: route.query.term, 
         subject: route.query.subject, 
-        number: route.query.number 
+        number: route.query.number,
+        domain: route.query.domain
       })
     },
     { 
@@ -32,7 +33,8 @@ let router = new Router({
       props: (route) => ({ 
         term: route.query.term, 
         subject: route.query.subject, 
-        number: route.query.number 
+        number: route.query.number,
+        domain: route.query.domain
       })
     },
     { 
@@ -43,7 +45,8 @@ let router = new Router({
         pid: route.query.pid, 
         term: route.query.term, 
         subject: route.query.subject, 
-        number: route.query.number 
+        number: route.query.number,
+        domain: route.query.domain
       })
     }]
 });
