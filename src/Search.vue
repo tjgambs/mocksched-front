@@ -121,41 +121,35 @@
         if(this.not_null(this.selected_domain) && this.not_null(this.selected_number) && this.not_null(this.selected_subject)) {
           $.get(this.search_api + 'by_learning_domain_subject_number/' + this.selected_domain + '/' + this.selected_subject + '/' + this.selected_number + '/' + this.selected_term, function(response) {
             _this.results = response.data.results;
-            _this.update_url();
           });
         }
         else if(this.not_null(this.selected_number) && this.not_null(this.selected_subject)) {
           $.get(this.search_api + 'by_subject_number/' + this.selected_subject + '/' + this.selected_number + '/' + this.selected_term, function(response) {
             _this.results = response.data.results;
-            _this.update_url();
           });
         } else if(this.not_null(this.selected_domain) && this.not_null(this.selected_subject)) {
          $.get(this.search_api + 'by_learning_domain_subject/' + this.selected_domain + '/' + this.selected_subject + '/' + this.selected_term, function(response) {
             _this.results = response.data.results;
-            _this.update_url();
           });
         } 
         else if(this.not_null(this.selected_number) && this.not_null(this.selected_domain)) {
           $.get(this.search_api + 'by_learning_domain_number/' + this.selected_domain + '/' + this.selected_number + '/' + this.selected_term, function(response) {
             _this.results = response.data.results;
-            _this.update_url();
           });
         } else if (this.not_null(this.selected_number)) {
           $.get(this.search_api + 'by_number/' + this.selected_number + '/' + this.selected_term, function(response) {
             _this.results = response.data.results;
-            _this.update_url();
           });
         } else if (this.not_null(this.selected_subject)) {
           $.get(this.search_api + 'by_subject/' + this.selected_subject + '/' + this.selected_term, function(response) {
             _this.results = response.data.results;
-            _this.update_url();
           });
         } else if(this.not_null(this.selected_domain)) {
           $.get(this.search_api + 'by_learning_domain/' + this.selected_domain + '/' + this.selected_term, function(response) {
             _this.results = response.data.results;
-            _this.update_url();
           });
         } 
+        _this.update_url();
       },
       not_null: function(val) {
         if (val != '' && val != undefined && val != null) 
