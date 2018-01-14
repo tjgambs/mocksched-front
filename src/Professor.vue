@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="professor_complete">
     <div class="columns" style="padding-top:15px">
       <div class="column is-1"></div>
       <div class="column">
@@ -55,7 +55,7 @@
         <div class="column is-1"></div>
         <div class="column is-3">
             Date: {{r.date.replace(' 00:00:00 GMT','')}}<br>
-            Class Name: {{r.class}}<br>
+            Class Name: {{r.course}}<br>
             Helpfulness: {{r.helpful}}<br>
             Clarity: {{r.clarity}}<br>
             Easiness: {{r.easy}}<br>
@@ -78,12 +78,13 @@
     props: ['term','subject','number','pid','domain'],
     data () {
       return {
-        search_api: 'http://23.236.57.78:8080/v1/search/',
+        search_api: 'http://localhost:5000/v1/search/',
         selected_subject: '',
         selected_number: '',
         selected_term: '',
         selected_domain: '',
         terms: [],
+        professor_complete: false,
         learning_domains: [
           {'value':'arts-and-literature', 'name':'Arts and Literature'},
           {'value':'self-society-and-the-modern-world', 'name':'Self Society and the Modern World'},
@@ -103,17 +104,22 @@
         if (_this.not_null(_this.term)) {
           _this.selected_term = _this.term;
           $.get(_this.search_api + 'all_subjects/' + _this.selected_term, function(subjects) {
-            _this.subjects = subjects.data.results;
-            _this.selected_subject = _this.subject;
-            _this.selected_number = _this.number;
-            _this.selected_domain = _this.domain;
+            if (_this.subjects != undefined) {
+              _this.subjects = subjects.data.results;
+            } if (_this.selected_subject != undefined) {
+              _this.selected_subject = _this.subject;
+            } if (_this.number != undefined) {
+              _this.selected_number = _this.number;
+            } if (_this.domain != undefined) {
+              _this.selected_domain = _this.domain;
+            }
           });
         }
       });
 
       $.get(this.search_api + 'by_professor_id/' + this.pid, function(professor) {
-        console.log(professor.data.results)
         _this.professor = professor.data.results;
+        _this.professor_complete = true;
       });
 
     },

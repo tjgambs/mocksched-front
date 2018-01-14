@@ -52,7 +52,7 @@
     props: ['term','subject','number','domain'],
     data () {
       return {
-        search_api: 'http://23.236.57.78:8080/v1/search/',
+        search_api: 'http://localhost:5000/v1/search/',
         selected_term: '',
         terms: [],
         learning_domains: [
@@ -77,10 +77,15 @@
         if (_this.not_null(_this.term)) {
           _this.selected_term = _this.term;
           $.get(_this.search_api + 'all_subjects/' + _this.selected_term, function(subjects) {
-            _this.subjects = subjects.data.results;
-            _this.selected_subject = _this.subject;
-            _this.selected_number = _this.number;
-            _this.selected_domain = _this.domain;
+            if (_this.subjects != undefined) {
+              _this.subjects = subjects.data.results;
+            } if (_this.selected_subject != undefined) {
+              _this.selected_subject = _this.subject;
+            } if (_this.number != undefined) {
+              _this.selected_number = _this.number;
+            } if (_this.domain != undefined) {
+              _this.selected_domain = _this.domain;
+            }
           });
         }
       });
@@ -92,6 +97,11 @@
         $.get(this.search_api + 'all_subjects/' + this.selected_term, function(subjects) {
           _this.subjects = subjects.data.results;
         });
+        if(this.not_null(this.selected_domain)) {
+          $.get(this.search_api + 'by_learning_domain/' + this.selected_domain + '/' + this.selected_term, function(response) {
+            _this.results = response.data.results;
+          });
+        }
       },
       selected_subject: function() {
         this.get_results();
@@ -122,8 +132,7 @@
           $.get(this.search_api + 'by_learning_domain_subject_number/' + this.selected_domain + '/' + this.selected_subject + '/' + this.selected_number + '/' + this.selected_term, function(response) {
             _this.results = response.data.results;
           });
-        }
-        else if(this.not_null(this.selected_number) && this.not_null(this.selected_subject)) {
+        } else if(this.not_null(this.selected_number) && this.not_null(this.selected_subject)) {
           $.get(this.search_api + 'by_subject_number/' + this.selected_subject + '/' + this.selected_number + '/' + this.selected_term, function(response) {
             _this.results = response.data.results;
           });
